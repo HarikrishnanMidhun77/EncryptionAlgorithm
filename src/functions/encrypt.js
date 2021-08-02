@@ -1,5 +1,5 @@
 export const charKeys =
-  `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 !"#$%&'()*+-./:;<=>?@{|}~`.split(
+  `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 !"#$%&'()*+-./:;<=>?@{|}~,`.split(
     ""
   ); /*ASCII 44 (`) is not included, total 88 chars
   90  is possible as we need all index to be 2 digits 
@@ -14,24 +14,36 @@ export const ecncryptText = (text, password) => {
   //var shiftedString = asciiLeftShift(charArray, shiftLength);
   // encryptedString = shiftedString;
 
-  var encodedString = encode(text.split(""));
+  if (text.length) var encodedString = encode(text.split(""));
+  console.log(`encode`, text.split(""), encodedString);
   encryptedString = mixAndIndex(encodedString, password).join("");
 
   encryptedString = addTextLength(encryptedString, text);
+  var encodedPassword = encode(password);
+  var encryptedStringWithPassword = attachPassword(
+    encryptedString,
+    encodedPassword
+  );
   console.log(`encryptedString`, encryptedString);
-  return encryptedString;
+  return encryptedStringWithPassword;
 };
-
+const attachPassword = (encryptedString, encodedPassword) => {
+  return (
+    encryptedString +
+    encodedPassword.join("") +
+    encodedPassword.length.toString()
+  );
+};
 // Using ~ as seperator because it can never be an encrypted value as it is postioned after the alphabets
 // Password is restrict to 10 because there is only  15 symbols before numbers including space
 
 export const mixAndIndex = (originalText, password) => {
   //  var textArr = originalText.split("");
   var textArr = originalText;
-  var pswdArr = password.split("");
   var textArrLength = textArr.length;
-  var resArr = new Array(20 - textArrLength);
-  var randomArray = genrateRandomN(20 - textArrLength); //as length of password increases, complexity increases
+  var lengthConst = 10 + textArrLength;
+  var resArr = new Array(lengthConst);
+  var randomArray = genrateRandomN(lengthConst); //as length of text increases, complexity increases
   var indexArray = randomArray.slice(0, textArr.length);
 
   for (var i = 0; i < textArr.length; i++) {
@@ -54,20 +66,6 @@ function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-//generate array of random numbers with 0 to 20 without duplicates
-export const genrateRandom20 = () => {
-  var a = [
-      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-    ],
-    i,
-    j;
-  var r = new Array(20);
-  for (a, i = a.length, j = 0; j < 20; i--, j++) {
-    var random = a.splice(Math.floor(Math.random() * (i + 0)), 1)[0];
-    r[j] = random;
-  }
-  return r;
-};
 export const genrateRandomN = (N) => {
   var i, j, k;
   var a = new Array(N);

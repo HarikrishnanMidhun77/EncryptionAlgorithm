@@ -91,10 +91,10 @@ export default function DecForm() {
             }}
             className="button"
             type="submit"
-            value="Encrypt"
-            name="encrypt"
-            id="encrypt"
-            placeholder="encrypt"
+            value="Decrypt"
+            name="decrypt"
+            id="decrypt"
+            placeholder="decrypt"
           />
         </FormGroup>
       </Form>
