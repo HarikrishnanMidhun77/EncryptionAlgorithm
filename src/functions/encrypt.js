@@ -45,7 +45,7 @@ export const mixAndIndex = (originalText, password) => {
   var resArr = new Array(lengthConst);
   var randomArray = genrateRandomN(lengthConst); //as length of text increases, complexity increases
   var indexArray = randomArray.slice(0, textArr.length);
-
+  console.log(`indexArray`, indexArray);
   for (var i = 0; i < textArr.length; i++) {
     resArr[randomArray[i]] = textArr[i];
   }

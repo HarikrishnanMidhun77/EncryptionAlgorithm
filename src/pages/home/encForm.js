@@ -20,7 +20,7 @@ export default function EncForm() {
   // }, [res]);
   const handlePswd = (p) => {
     setPswd(p);
-    if (p.length > 10 || p.length <= 4) {
+    if (p.length > 9 || p.length <= 4) {
       setPswdInvalid(true);
     } else {
       setPswdInvalid(false);
@@ -79,7 +79,7 @@ export default function EncForm() {
             placeholder="password"
           />
           <FormFeedback>
-            Password legth must be between 4 to 10 characters
+            Password legth must be between 4 to 9 characters
           </FormFeedback>
         </FormGroup>
         <FormGroup>

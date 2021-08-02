@@ -1,29 +1,56 @@
 import { charKeys } from "./encrypt";
 
+// export const decryptText = (text, enteredPswd) => {
+//   var numberOfDigitsOfLength = parseInt(
+//     text[text.length - (enteredPswd.length * 2 + 2)]
+//   );
+//   console.log(`numberOfDigitsOfLength`, numberOfDigitsOfLength);
+//   var ar = text
+//     .split("")
+//     .slice(
+//       text.length - (enteredPswd.length * 2 + 2 + numberOfDigitsOfLength),
+//       text.length - (enteredPswd.length * 2 + numberOfDigitsOfLength)
+//     );
+
+//   var textLength = parseInt(ar.join(""));
+//   console.log(`textLength`, textLength);
+//   var newTextArr = text
+//     .split("")
+//     .slice(
+//       0,
+//       text.length - (1 + numberOfDigitsOfLength + enteredPswd.length + 2)
+//     );
+
+//   console.log(`newTextArr`, newTextArr);
+//   if (managePassword(text, enteredPswd)) {
+//     return decrypt(newTextArr, textLength); //text.split("")
+//   } else {
+//     return "Password does not match";
+//   }
+// };
+
 export const decryptText = (text, enteredPswd) => {
-  var numberOfDigitsOfLength = parseInt(text[text.length - 1]);
-  var ar = text
-    .split("")
-    .slice(
-      text.length - (1 + numberOfDigitsOfLength + enteredPswd.length + 2),
-      text.length - (1 + numberOfDigitsOfLength + enteredPswd.length + 1)
-    );
+  var res = managePassword(text, enteredPswd);
+  console.log(`res`, res);
+  if (res) {
+    text = text.substring(0, text.length - (1 + enteredPswd.length * 2));
 
-  var textLength = parseInt(ar.join(""));
-  console.log(`textLength`, textLength);
-  var newTextArr = text
-    .split("")
-    .slice(
-      0,
-      text.length - (1 + numberOfDigitsOfLength + enteredPswd.length + 2)
-    );
-  console.log(
-    `(1 + numberOfDigitsOfLength + enteredPswd.length)`,
-    1 + numberOfDigitsOfLength + enteredPswd.length + 1
-  );
+    console.log(`textWithoutPswd`, text);
+    var numberOfDigitsOfLength = parseInt(text[text.length - 1]);
 
-  console.log(`newTextArr`, newTextArr);
-  if (managePassword(text, enteredPswd)) {
+    //var ar = text.split("").slice(40, 41);
+    var ar = text
+      .split("")
+      .slice(text.length - (1 + numberOfDigitsOfLength), text.length - 1);
+    console.log(`text.length`, text.length);
+
+    var textLength = parseInt(ar.join(""));
+
+    console.log(`textLength`, textLength);
+
+    var newTextArr = text
+      .split("")
+      .slice(0, text.length - (1 + numberOfDigitsOfLength));
     return decrypt(newTextArr, textLength); //text.split("")
   } else {
     return "Password does not match";
@@ -47,21 +74,22 @@ const managePassword = (text, enteredPswd) => {
   return true;
 };
 
-export const decrypt = (encText10, textLength) => {
+export const decrypt = (encText10, textLength, passwordLength) => {
   console.log(`encText10`, encText10);
   var digit2Array = decode10to2(encText10);
   console.log(`digit2Array`, digit2Array);
-  var demixedArray = demix(digit2Array, textLength);
+  var demixedArray = demix(digit2Array, textLength, passwordLength);
   console.log(`demixedArray`, demixedArray);
   var decodedString = decode(demixedArray);
   return decodedString;
 };
 
-export const demix = (digit2Array, textLength) => {
+export const demix = (digit2Array, textLength, passwordLength) => {
   var indexArray = digit2Array.slice(
     digit2Array.length - textLength,
     digit2Array.length
   );
+
   indexArray = remove2Digits(indexArray);
   console.log(`indexArray`, indexArray);
   var r = new Array(indexArray.length);
