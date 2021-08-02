@@ -14,7 +14,7 @@ export const ecncryptText = (text, password) => {
   //var shiftedString = asciiLeftShift(charArray, shiftLength);
   // encryptedString = shiftedString;
 
-  if (text.length) var encodedString = encode(text.split(""));
+  var encodedString = encode(text.split(""));
   console.log(`encode`, text.split(""), encodedString);
   encryptedString = mixAndIndex(encodedString, password).join("");
 
