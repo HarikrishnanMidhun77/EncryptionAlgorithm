@@ -8,8 +8,8 @@ import {
   Input,
   FormText,
 } from "reactstrap";
-import { ecncryptText } from "../../functions/encrypt";
-export default function EncForm() {
+import { decryptText } from "../../functions/decrypt";
+export default function DecForm() {
   const [text, setText] = useState("");
   const [pswd, setPswd] = useState("");
   const [pswdInvalid, setPswdInvalid] = useState(false);
@@ -47,14 +47,14 @@ export default function EncForm() {
     if (!(pswdInvalid && textInvalid)) {
       console.log(`text`, text);
       console.log(`pswd`, pswd);
-      setRes(ecncryptText(text, pswd));
+      setRes(decryptText(text, pswd));
     }
   };
   return (
     <div>
       <Form onSubmit={handleSubmit} className="width-auto">
         <FormGroup>
-          <Label for="exampleText">Text to encrypt</Label>
+          <Label for="exampleText">Text to decrypt</Label>
 
           <Input
             type="textarea"
@@ -98,8 +98,8 @@ export default function EncForm() {
           />
         </FormGroup>
       </Form>
-      <Label for="exampleText">Encrypted Text</Label>
-      <Input type="textarea" value={res} disabled={true} name="res" id="res" />
+      <Label for="exampleText">Decrypted Text</Label>
+      <Input type="textarea" value={res} disabled={false} name="res" id="res" />
     </div>
   );
 }

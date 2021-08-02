@@ -3,6 +3,7 @@ import "./home.css";
 import OptionSelector3 from "../../components/OptionSelector3";
 import { Container, Row, Col, Image } from "reactstrap";
 import EncForm from "./encForm";
+import DecForm from "./decForm";
 
 export default function CryptHome() {
   const [option, setOption] = useState(1);
@@ -26,7 +27,7 @@ export default function CryptHome() {
                 lg="6"
                 className="col-centered d-flex justify-content-center"
               >
-                {option === 1 ? <EncForm /> : <></>}
+                {option === 1 ? <EncForm /> : <DecForm />}
               </Col>
             </Row>
           </div>

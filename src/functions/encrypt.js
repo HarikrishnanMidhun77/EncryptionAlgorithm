@@ -1,4 +1,4 @@
-const charKeys =
+export const charKeys =
   `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 !"#$%&'()*+-./:;<=>?@{|}~`.split(
     ""
   ); /*ASCII 44 (`) is not included, total 88 chars
@@ -11,37 +11,24 @@ export const ecncryptText = (text, password) => {
   var shiftLength = password.length;
   var reversedString = strReverse(text);
   var charArray = reversedString.split("");
-  var shiftedString = asciiLeftShift(charArray, shiftLength);
-  encryptedString = shiftedString;
+  //var shiftedString = asciiLeftShift(charArray, shiftLength);
+  // encryptedString = shiftedString;
 
   var encodedString = encode(text.split(""));
-  mixAndIndex(encodedString);
+  encryptedString = mixAndIndex(encodedString, password).join("");
 
+  encryptedString = addTextLength(encryptedString, text);
   console.log(`encryptedString`, encryptedString);
   return encryptedString;
-};
-
-const strReverse = (s) => {
-  return s.split("").reverse().join("");
-};
-
-const asciiLeftShift = (charArray, shiftLength) => {
-  var shiftedString = "";
-  var nextChar = "";
-  charArray.forEach((char) => {
-    nextChar = String.fromCharCode(char.charCodeAt() - shiftLength);
-    shiftedString += nextChar;
-  });
-  return shiftedString;
 };
 
 // Using ~ as seperator because it can never be an encrypted value as it is postioned after the alphabets
 // Password is restrict to 10 because there is only  15 symbols before numbers including space
 
 export const mixAndIndex = (originalText, password) => {
-  var textArr = originalText.split("");
+  //  var textArr = originalText.split("");
+  var textArr = originalText;
   var pswdArr = password.split("");
-  var pswdLength = password.length;
   var textArrLength = textArr.length;
   var resArr = new Array(20 - textArrLength);
   var randomArray = genrateRandomN(20 - textArrLength); //as length of password increases, complexity increases
@@ -128,4 +115,24 @@ export const isAlphaNumeric = (char) => {
   }
 
   return true;
+};
+const strReverse = (s) => {
+  return s.split("").reverse().join("");
+};
+
+const asciiLeftShift = (charArray, shiftLength) => {
+  var shiftedString = "";
+  var nextChar = "";
+  charArray.forEach((char) => {
+    nextChar = String.fromCharCode(char.charCodeAt() - shiftLength);
+    shiftedString += nextChar;
+  });
+  return shiftedString;
+};
+
+const addTextLength = (encryptedString, text) => {
+  var len = text.length;
+  var noOfDigits = len.toString().length; // can only be one digit
+  console.log(`len,`, len, "noOfDigits", noOfDigits);
+  return encryptedString + len.toString() + noOfDigits;
 };
